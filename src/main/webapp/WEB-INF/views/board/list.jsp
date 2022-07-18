@@ -33,11 +33,6 @@
 		<a href="register">글쓰기</a>
 	</div>
 	
-<!-- Button to Open the Modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-  Open modal
-</button>
-
 <!-- The Modal -->
 <div class="modal" id="feedback">
   <div class="modal-dialog">
@@ -50,10 +45,7 @@
       </div>
 
       <!-- Modal body -->
-      <div class="modal-body">
-        ${regResult}번 글을 등록하였습니다. 
-      </div>
-
+      <div class="modal-body message"></div>
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -65,8 +57,19 @@
 
 <script>
 $(function(){
-	let regResult ="${regResult}"
-	if(regResult.trim()!=''){
+	let result ="${result}"
+	let message = ""
+	if(result.trim()!=''){
+		if(result=='register'){
+			 message = "${bno}번 글을 등록하였습니다"
+		
+		} else if(result=='modify'){
+			 message = "${bno}번 글을 수정하였습니다"
+			
+		} else if(result=='remove'){
+			 message = "${bno}번 글을 삭제하였습니다"
+		}
+		$('.message').append(message);
 		$('#feedback').modal('show');
 	}	
 });
