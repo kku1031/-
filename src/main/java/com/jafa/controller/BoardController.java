@@ -6,9 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.jafa.exception.NotFoundBoardException;
 import com.jafa.model.BoardVO;
 import com.jafa.service.BoardService;
 
@@ -34,8 +38,41 @@ public class BoardController {
 	
 	@GetMapping("/get")
 	public String get(Long bno, Model model) {
-		System.out.println(bno);
+		BoardVO read = service.read(bno);
+		if(read==null) throw new NotFoundBoardException();
 		model.addAttribute("board",service.read(bno));
 		return "board/get";
 	}
+
+	
+	@GetMapping("/register")
+	public String registerForm() {
+		return "board/register";
+	}
+	
+	@PostMapping("/register")
+	public String register(BoardVO vo, RedirectAttributes rttr) {
+		service.register(vo);
+		System.out.println(vo);
+		rttr.addFlashAttribute("regResult", vo.getBno());
+		return "redirect:list";
+	}
+	
+	@GetMapping("/modify")
+	public String modifyForm(Long bno, Model model) {
+		BoardVO read = service.read(bno);
+		if(read==null) throw new NotFoundBoardException();
+		model.addAttribute("board",read);
+		return "board/modify";
+	}
+	
+	// 예외처리
+	@ExceptionHandler(NotFoundBoardException.class)
+	public String notFoundBoard() {
+		System.out.println("예외발생");
+		System.out.println("존재하지 않는 게시물 입니다.");
+		return "errorPage/notFoundBoard";
+	}
+	
+	
 }
