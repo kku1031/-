@@ -3,14 +3,14 @@
 <mapper namespace="com.jafa.mapper.BoardMapper">
 
 	<select id="getList" resultType="com.jafa.model.BoardVO">
-		select * from board_tbl
+		select * from board_tbl limit #{pageStart}, #{perPageNum}
 	</select>
 	<select id="get" resultType="com.jafa.model.BoardVO">
 		select * from board_tbl where bno = #{bno}
 	</select>
 	<insert id="insert">
 		<selectKey keyProperty="bno" resultType="java.lang.Long" order="AFTER">
-			SELECT LAST_INSERT_ID()
+			select LAST_INSERT_ID()
 		</selectKey>	
 		insert into board_tbl(title,content,writer)
 		values (#{title},#{content},#{writer})

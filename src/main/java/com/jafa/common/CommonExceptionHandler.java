@@ -1,5 +1,6 @@
 package com.jafa.common;
 
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,7 +19,7 @@ public class CommonExceptionHandler {
 		return "errorPage/_404";
 	}
 	
-//	@ExceptionHandler(Exception.class)
+//	@ExceptionHandler(TypeMismatchException.class)
 //	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public String badRequestHandler() {		
 		return "errorPage/_400";

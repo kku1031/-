@@ -7,14 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.jafa.mapper.BoardMapper;
 import com.jafa.model.BoardVO;
+import com.jafa.model.Criteria;
 
 @Service
 public class BoardServiceImpl implements BoardService {
 
-	public BoardServiceImpl() {
-		System.out.println("첫번째 구현체");
-	}
-	
 	private BoardMapper mapper;		
 	
 	@Autowired
@@ -23,8 +20,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> readAll() {
-		return mapper.getList();
+	public List<BoardVO> readAll(Criteria criteria) {
+		return mapper.getList(criteria);
 	}
 
 	@Override

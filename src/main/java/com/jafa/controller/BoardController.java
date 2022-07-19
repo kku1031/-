@@ -14,6 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jafa.exception.NotFoundBoardException;
 import com.jafa.model.BoardVO;
+import com.jafa.model.Criteria;
+import com.jafa.model.PageMarker;
 import com.jafa.service.BoardService;
 
 @Controller
@@ -22,16 +24,17 @@ public class BoardController {
 	
 	private BoardService service;	
 	
-	@Autowired
-	@Qualifier("boardServiceImplBB")
+	@Autowired	
 	public void setService(BoardService service) {
 		this.service = service;
 	}
 
 	@GetMapping("/list")
-	public String getList(Model model) {
-		List<BoardVO> readAll = service.readAll();
-		System.out.println(readAll);
+	public String getList(Model model, Criteria criteria) {
+		
+		PageMarker pageMarker = new PageMarker(criteria, 412);
+		List<BoardVO> readAll = service.readAll(criteria);
+		model.addAttribute("pageMarker", pageMarker);
 		model.addAttribute("list", readAll);
 		return "board/list";
 	}

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jafa.AppTest;
 import com.jafa.model.BoardVO;
+import com.jafa.model.Criteria;
 
 public class BoardMapperTest extends AppTest {
 
@@ -13,9 +14,11 @@ public class BoardMapperTest extends AppTest {
 	BoardMapper mapper;
 	
 	@Test
-	@Ignore
+	
 	public void getListtest() {
-		mapper.getList();
+		Criteria criteria = new Criteria();
+		criteria.setPage(2);
+		mapper.getList(criteria);
 	}
 
 	
